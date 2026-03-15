@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__claude_ai_Figma__get_design_context",
+      "Bash(npm install:*)",
+      "Read(//c/Users/Sravan/.claude/projects/c--Users-Sravan-projects-portfolio/3556b72a-0991-4679-89ba-62d30d38d58d/subagents/**)",
+      "Bash(npm run:*)",
+      "mcp__plugin_figma_figma__get_design_context",
+      "Read(//c/Users/Sravan/projects/**)",
+      "Bash(npx tsc:*)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Sravan\\projects\\carroms-game\\src\\components",
+      "C:\\Users\\Sravan\\projects\\carroms-game"
+    ]
+  }
+}
