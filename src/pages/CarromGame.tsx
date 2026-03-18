@@ -762,9 +762,9 @@ export default function CarromGame() {
       backgroundSize: '100% 100%, 100% 100%, 100% 100%, 80px 80px, 80px 80px, 100% 100%',
       boxShadow: 'inset 0 0 200px rgba(0,0,0,0.7), inset 0 0 100px rgba(0,0,0,0.5)',
     }}>
-      <Link to="/" className="fixed top-6 left-6 z-50 flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm">
+      <Link to="/experiments" className="fixed top-6 left-6 z-50 flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm">
         <ArrowLeft className="w-4 h-4" />
-        Back to Home
+        Back to Experiments
       </Link>
 
       <div className="relative w-full flex flex-col items-center justify-center">

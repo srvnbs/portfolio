@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 const MotionLink = motion.create(Link);
-import { Moon, Sun } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
+import { useTheme } from './components/Layout';
 import profileImage from 'figma:asset/81f683565768878cc7a4a6d9706864377017a4e4.png';
 
 export default function App() {
-  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
-  const [showCursor, setShowCursor] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, theme } = useTheme();
 
   // Set page title and meta tags
   useEffect(() => {
@@ -101,128 +98,9 @@ export default function App() {
     structuredData.textContent = JSON.stringify(schema);
   }, []);
 
-  // Initialize dark mode from localStorage or system preference
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setDarkMode(true);
-    } else if (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setDarkMode(true);
-    }
-  }, []);
-
-  // Save theme preference to localStorage and update DOM class
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-    
-    // Add or remove the 'dark' class on the document element
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
-    // Update theme-color meta tag based on dark mode
-    let themeColorMeta = document.querySelector('meta[name="theme-color"]') as HTMLMetaElement;
-    if (!themeColorMeta) {
-      themeColorMeta = document.createElement('meta');
-      themeColorMeta.name = 'theme-color';
-      document.head.appendChild(themeColorMeta);
-    }
-    themeColorMeta.content = darkMode ? '#0a0a0a' : '#f5f5f5';
-  }, [darkMode]);
-
-  // Detect touch device
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
-
-  // Custom cursor tracking
-  useEffect(() => {
-    if (isTouchDevice) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-      if (!showCursor) setShowCursor(true);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [showCursor, isTouchDevice]);
-
-  const theme = {
-    bg: darkMode ? '#1a1a1a' : '#f5f5f5',
-    text: darkMode ? '#f5f5f5' : '#1a1a1a',
-    textSecondary: darkMode ? '#b0b0b0' : '#3a3a3a',
-    textMuted: darkMode ? '#888888' : '#999999',
-    accent: darkMode ? '#f5f5f5' : '#2d2d2d',
-    cardBg: darkMode ? '#242424' : '#ffffff',
-    border: darkMode ? '#333333' : '#e5e5e5',
-    cursor: darkMode ? '#f5f5f5' : '#2d2d2d',
-    tooltip: darkMode ? '#f5f5f5' : '#2d2d2d',
-    tooltipText: darkMode ? '#1a1a1a' : '#f5f5f5',
-    availableBg: darkMode ? '#10b98133' : '#10b98120',
-    availableText: darkMode ? '#10b981' : '#059669',
-  };
 
   return (
-    <div 
-      className="min-h-screen relative font-['Inter',sans-serif] transition-colors duration-300"
-      style={{ backgroundColor: theme.bg, color: theme.text }}
-    >
-      {/* Custom Cursor */}
-      {showCursor && (
-        <>
-          <motion.div
-            className="hidden md:block fixed w-[8px] h-[8px] rounded-full pointer-events-none"
-            style={{
-              backgroundColor: theme.cursor,
-              zIndex: 9999,
-            }}
-            animate={{
-              x: cursorPosition.x - 4,
-              y: cursorPosition.y - 4,
-            }}
-            transition={{
-              type: "spring",
-              damping: 30,
-              stiffness: 500,
-              mass: 0.5,
-            }}
-          />
-          <motion.div
-            className="hidden md:block fixed w-[40px] h-[40px] border rounded-full pointer-events-none"
-            style={{
-              borderColor: theme.cursor,
-              zIndex: 9999,
-            }}
-            animate={{
-              x: cursorPosition.x - 20,
-              y: cursorPosition.y - 20,
-            }}
-            transition={{
-              type: "spring",
-              damping: 25,
-              stiffness: 200,
-              mass: 0.8,
-            }}
-          />
-        </>
-      )}
-
-      {/* Dark Mode Toggle */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        onClick={() => setDarkMode(!darkMode)}
-        className="fixed top-8 right-8 z-50 p-3 rounded-full transition-all duration-300 hover:scale-110"
-        style={{ backgroundColor: theme.cardBg, color: theme.text }}
-        aria-label="Toggle dark mode"
-      >
-        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-      </motion.button>
-
+    <div>
       <main className="container mx-auto px-8 max-w-[1200px]">
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center min-h-screen py-12">
@@ -231,7 +109,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
+              transition={{ duration: 0.6, delay: 0, ease: 'easeOut' }}
               className="mb-8"
             >
               <div className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px] mx-auto rounded-full overflow-hidden">
@@ -247,7 +125,7 @@ export default function App() {
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
               className="mb-4 leading-[1.1] text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem]"
               style={{ fontFamily: "'Merriweather', serif", fontWeight: 400, color: theme.text }}
             >
@@ -258,7 +136,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
               className="max-w-[750px] mx-auto text-center mb-4"
             >
               <p className="pb-4 text-[17px] sm:text-[18px] md:text-[20px] mt-[-8px]" style={{ color: theme.text }}>
@@ -270,70 +148,51 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
               className="max-w-[750px] mx-auto text-center mb-8"
             >
-              <p className="text-[14px] sm:text-[15px] md:text-[16px] leading-relaxed" style={{ color: theme.textSecondary }}>
-                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently, at M2P Fintech
+              <p className="text-[15px] sm:text-[17px] md:text-[18px] leading-relaxed" style={{ color: theme.textSecondary }}>
+                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at M2P Fintech
               </p>
             </motion.div>
-
-            {/* Availability Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg mb-12 border-[3px]"
-              style={{ 
-                backgroundColor: darkMode ? '#10b981' : '#10b981',
-                color: '#ffffff',
-                borderColor: darkMode ? '#0ea672' : '#059669',
-                transform: 'rotate(-1.5deg)',
-                boxShadow: darkMode 
-                  ? '0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' 
-                  : '0 2px 8px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                fontFamily: "'Inter', sans-serif",
-                letterSpacing: '0.02em'
-              }}
-            >
-              <span 
-                className="w-2 h-2 rounded-full animate-pulse" 
-                style={{ backgroundColor: '#ffffff' }}
-              ></span>
-              <span className="text-sm font-semibold uppercase tracking-wide">Open to opportunities</span>
-            </motion.div>
-
-            {/* Social Links Title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-              className="mb-4 text-[16px]"
-              style={{ color: theme.text }}
-            >
-              Let's connect
-            </motion.h2>
 
             {/* Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7, ease: 'easeOut' }}
+              transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
               className="flex justify-center items-start"
             >
-              <motion.a
-                href="mailto:sravanworld95@gmail.com"
+              <MotionLink
+                to="/projects"
                 className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
                 style={{ color: theme.text }}
-                aria-label="Email Sai"
+                aria-label="View projects"
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="9" height="9" rx="2" />
+                  <rect x="13" y="2" width="9" height="9" rx="2" />
+                  <rect x="2" y="13" width="9" height="9" rx="2" />
+                  <rect x="13" y="13" width="9" height="9" rx="2" />
                 </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Email</span>
-              </motion.a>
+                <span className="text-xs" style={{ color: theme.textMuted }}>Projects</span>
+              </MotionLink>
+
+              <MotionLink
+                to="/experiments"
+                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
+                style={{ color: theme.text }}
+                aria-label="View experiments"
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M288 0H160 128C110.3 0 96 14.3 96 32s14.3 32 32 32V196.8c0 11.8-3.3 23.5-9.5 33.5L10.3 406.2C3.6 417.2 0 429.7 0 442.6C0 480.9 31.1 512 69.4 512H378.6c38.3 0 69.4-31.1 69.4-69.4c0-12.8-3.6-25.4-10.3-36.4L329.5 230.4c-6.2-10.1-9.5-21.7-9.5-33.5V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H288zM192 196.8V64h64V196.8c0 23.7 6.6 46.9 19 67.1L309.5 320h-171L173 263.9c12.4-20.2 19-43.4 19-67.1z"/>
+                </svg>
+                <span className="text-xs" style={{ color: theme.textMuted }}>Experiments</span>
+              </MotionLink>
 
               <motion.a
                 href="https://www.linkedin.com/in/sai-sravan-biyyapu/"
@@ -352,34 +211,18 @@ export default function App() {
               </motion.a>
 
               <motion.a
-                href="https://www.behance.net/saisravan"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:sravanworld95@gmail.com"
                 className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
                 style={{ color: theme.text }}
-                aria-label="View work on Behance"
+                aria-label="Email Sai"
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z"/>
+                  <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
                 </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Portfolio</span>
+                <span className="text-xs" style={{ color: theme.textMuted }}>Email</span>
               </motion.a>
-
-              <MotionLink
-                to="/carroms"
-                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
-                style={{ color: theme.text }}
-                aria-label="View experiments"
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M288 0H160 128C110.3 0 96 14.3 96 32s14.3 32 32 32V196.8c0 11.8-3.3 23.5-9.5 33.5L10.3 406.2C3.6 417.2 0 429.7 0 442.6C0 480.9 31.1 512 69.4 512H378.6c38.3 0 69.4-31.1 69.4-69.4c0-12.8-3.6-25.4-10.3-36.4L329.5 230.4c-6.2-10.1-9.5-21.7-9.5-33.5V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H288zM192 196.8V64h64V196.8c0 23.7 6.6 46.9 19 67.1L309.5 320h-171L173 263.9c12.4-20.2 19-43.4 19-67.1z"/>
-                </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Experiments</span>
-              </MotionLink>
             </motion.div>
           </div>
         </section>
