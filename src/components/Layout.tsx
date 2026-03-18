@@ -1,6 +1,10 @@
-import { useState, useEffect, createContext, useContext } from 'react';
-import { motion } from 'motion/react';
+import { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { BottomNav } from './BottomNav';
+
+const TRAIL_LENGTH = 12;
+const TRAIL_INTERVAL = 16; // ~60fps
+
+type TrailPoint = { x: number; y: number; id: number };
 
 type ThemeContextType = {
   darkMode: boolean;
@@ -21,10 +25,12 @@ const ThemeContext = createContext<ThemeContextType>(null!);
 export const useTheme = () => useContext(ThemeContext);
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [cursorPosition, setCursorPosition] = useState({ x: -100, y: -100 });
+  const [trail, setTrail] = useState<TrailPoint[]>([]);
   const [showCursor, setShowCursor] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const idCounter = useRef(0);
+  const lastUpdate = useRef(0);
 
   // Initialize dark mode
   useEffect(() => {
@@ -59,15 +65,35 @@ export function Layout({ children }: { children: React.ReactNode }) {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
   }, []);
 
-  // Custom cursor tracking
+  // Trail cursor tracking
+  const idleTimer = useRef<ReturnType<typeof setTimeout>>();
   useEffect(() => {
     if (isTouchDevice) return;
     const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
+      const now = performance.now();
+      if (now - lastUpdate.current < TRAIL_INTERVAL) return;
+      lastUpdate.current = now;
+
       if (!showCursor) setShowCursor(true);
+      const id = ++idCounter.current;
+      setTrail(prev => [...prev.slice(-(TRAIL_LENGTH - 1)), { x: e.clientX, y: e.clientY, id }]);
+
+      // Gradually drain trail when mouse stops
+      clearTimeout(idleTimer.current);
+      const drainTrail = () => {
+        setTrail(prev => {
+          if (prev.length <= 1) return prev;
+          return prev.slice(1); // remove oldest point
+        });
+        idleTimer.current = setTimeout(drainTrail, 18);
+      };
+      idleTimer.current = setTimeout(drainTrail, 80);
     };
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearTimeout(idleTimer.current);
+    };
   }, [showCursor, isTouchDevice]);
 
   const theme = {
@@ -84,22 +110,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode, theme }}>
       <div className="min-h-screen relative font-['Inter',sans-serif] transition-colors duration-300" style={{ backgroundColor: theme.bg, color: theme.text }}>
-        {/* Custom Cursor */}
+        {/* Trail Cursor */}
         {showCursor && (
-          <>
-            <motion.div
-              className="hidden md:block fixed w-[8px] h-[8px] rounded-full pointer-events-none"
-              style={{ backgroundColor: theme.cursor, zIndex: 9999 }}
-              animate={{ x: cursorPosition.x - 4, y: cursorPosition.y - 4 }}
-              transition={{ type: "spring", damping: 30, stiffness: 500, mass: 0.5 }}
-            />
-            <motion.div
-              className="hidden md:block fixed w-[40px] h-[40px] border rounded-full pointer-events-none"
-              style={{ borderColor: theme.cursor, zIndex: 9999 }}
-              animate={{ x: cursorPosition.x - 20, y: cursorPosition.y - 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 200, mass: 0.8 }}
-            />
-          </>
+          <div className="hidden md:block fixed inset-0 pointer-events-none" style={{ zIndex: 9999 }}>
+            {trail.map((point, i) => {
+              const progress = i / (trail.length - 1 || 1); // 0 (oldest) → 1 (newest)
+              const size = 3 + progress * 5; // 3px → 8px
+              const opacity = 0.08 + progress * 0.92; // fades out toward tail
+              return (
+                <div
+                  key={point.id}
+                  className="fixed rounded-full"
+                  style={{
+                    width: size,
+                    height: size,
+                    backgroundColor: theme.cursor,
+                    opacity,
+                    left: point.x - size / 2,
+                    top: point.y - size / 2,
+                    transition: 'opacity 0.3s ease-out',
+                  }}
+                />
+              );
+            })}
+          </div>
         )}
 
         {children}

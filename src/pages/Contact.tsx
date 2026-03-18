@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, Linkedin, Mail, Globe, Dribbble } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowLeft, Linkedin, Mail, Copy, Check } from 'lucide-react';
 import { useTheme } from '../components/Layout';
 
 const contacts = [
@@ -10,34 +10,45 @@ const contacts = [
     description: 'sravanworld95@gmail.com',
     href: 'mailto:sravanworld95@gmail.com',
     icon: Mail,
+    copyValue: 'sravanworld95@gmail.com',
   },
   {
     title: 'LinkedIn',
     description: 'sai-sravan-biyyapu',
     href: 'https://www.linkedin.com/in/sai-sravan-biyyapu/',
     icon: Linkedin,
-  },
-  {
-    title: 'Behance',
-    description: 'saisravanbiyyapu',
-    href: 'https://www.behance.net/saisravanbiyyapu',
-    icon: Globe,
-  },
-  {
-    title: 'Dribbble',
-    description: 'saisravanbiyyapu',
-    href: 'https://dribbble.com/saisravanbiyyapu',
-    icon: Dribbble,
+    copyValue: 'https://www.linkedin.com/in/sai-sravan-biyyapu/',
   },
 ];
 
 export default function Contact() {
   const { theme } = useTheme();
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     document.title = 'Contact - Sai Sravan Biyyapu';
     window.scrollTo(0, 0);
   }, []);
+
+  const handleCopy = async (value: string, index: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      // Fallback for non-HTTPS contexts
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
 
   return (
     <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
@@ -95,6 +106,41 @@ export default function Contact() {
                 {contact.description}
               </p>
             </div>
+            <button
+              type="button"
+              onClick={(e) => handleCopy(contact.copyValue, i, e)}
+              onMouseDown={(e) => e.stopPropagation()}
+              className={`relative z-10 h-9 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 shrink-0 ${copiedIndex === i ? 'px-2.5' : 'w-9'}`}
+              style={{ color: theme.textMuted, backgroundColor: theme.bg }}
+              aria-label={`Copy ${contact.title}`}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {copiedIndex === i ? (
+                  <motion.span
+                    key="check"
+                    className="flex items-center gap-1"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    style={{ color: theme.accent }}
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span className="text-xs font-medium">Copied!</span>
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="copy"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <Copy className="w-4 h-4" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
             <svg
               className="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
               style={{ color: theme.textMuted }}
