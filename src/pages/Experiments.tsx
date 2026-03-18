@@ -59,7 +59,7 @@ export default function Experiments() {
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
       <Link
         to="/"
         className="inline-flex items-center gap-2 mb-12 text-sm transition-opacity hover:opacity-70"

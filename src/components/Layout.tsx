@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { motion } from 'motion/react';
-import { Moon, Sun } from 'lucide-react';
+import { BottomNav } from './BottomNav';
 
 type ThemeContextType = {
   darkMode: boolean;
@@ -102,20 +102,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </>
         )}
 
-        {/* Dark Mode Toggle */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          onClick={() => setDarkMode(!darkMode)}
-          className="fixed top-8 right-8 z-50 p-3 rounded-full transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: theme.cardBg, color: theme.text }}
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </motion.button>
-
         {children}
+        <BottomNav />
       </div>
     </ThemeContext.Provider>
   );

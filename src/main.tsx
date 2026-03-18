@@ -12,6 +12,7 @@ const MarbleSolitaire = lazy(() => import("./pages/MarbleSolitaire.tsx"));
 const Terminal = lazy(() => import("./pages/Terminal.tsx"));
 const Projects = lazy(() => import("./pages/Projects.tsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.tsx"));
+const Contact = lazy(() => import("./pages/Contact.tsx"));
 
 const LazyFallback = () => (
   <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1a1612', color: '#fff' }}>Loading...</div>
@@ -60,6 +61,14 @@ createRoot(document.getElementById("root")!).render(
           element={
             <Suspense fallback={<LazyFallback />}>
               <Terminal />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Suspense fallback={<LazyFallback />}>
+              <Contact />
             </Suspense>
           }
         />

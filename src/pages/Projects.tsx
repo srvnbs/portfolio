@@ -13,7 +13,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
       <Link
         to="/"
         className="inline-flex items-center gap-2 mb-12 text-sm transition-opacity hover:opacity-70"
@@ -57,13 +57,22 @@ export default function Projects() {
                 color: theme.text,
               }}
             >
-              <div className="aspect-[16/10] overflow-hidden" style={{ backgroundColor: theme.bg }}>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
+              <div className="aspect-[16/10] overflow-hidden flex justify-center" style={{ backgroundColor: project.caseStudy ? '#f0f0f0' : theme.bg }}>
+                {project.caseStudy ? (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-[55%] object-cover object-top mt-8 rounded-t-[2rem] transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                ) : (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
               </div>
               <div className="p-4 flex items-start justify-between gap-2">
                 <div>

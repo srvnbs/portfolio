@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Link } from 'react-router-dom';
-
-const MotionLink = motion.create(Link);
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import { useTheme } from './components/Layout';
 import profileImage from 'figma:asset/81f683565768878cc7a4a6d9706864377017a4e4.png';
@@ -156,74 +153,6 @@ export default function App() {
               </p>
             </motion.div>
 
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
-              className="flex justify-center items-start"
-            >
-              <MotionLink
-                to="/projects"
-                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
-                style={{ color: theme.text }}
-                aria-label="View projects"
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="2" y="2" width="9" height="9" rx="2" />
-                  <rect x="13" y="2" width="9" height="9" rx="2" />
-                  <rect x="2" y="13" width="9" height="9" rx="2" />
-                  <rect x="13" y="13" width="9" height="9" rx="2" />
-                </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Projects</span>
-              </MotionLink>
-
-              <MotionLink
-                to="/experiments"
-                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
-                style={{ color: theme.text }}
-                aria-label="View experiments"
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M288 0H160 128C110.3 0 96 14.3 96 32s14.3 32 32 32V196.8c0 11.8-3.3 23.5-9.5 33.5L10.3 406.2C3.6 417.2 0 429.7 0 442.6C0 480.9 31.1 512 69.4 512H378.6c38.3 0 69.4-31.1 69.4-69.4c0-12.8-3.6-25.4-10.3-36.4L329.5 230.4c-6.2-10.1-9.5-21.7-9.5-33.5V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H288zM192 196.8V64h64V196.8c0 23.7 6.6 46.9 19 67.1L309.5 320h-171L173 263.9c12.4-20.2 19-43.4 19-67.1z"/>
-                </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Experiments</span>
-              </MotionLink>
-
-              <motion.a
-                href="https://www.linkedin.com/in/sai-sravan-biyyapu/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
-                style={{ color: theme.text }}
-                aria-label="Connect on LinkedIn"
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
-                </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>LinkedIn</span>
-              </motion.a>
-
-              <motion.a
-                href="mailto:sravanworld95@gmail.com"
-                className="w-[100px] flex flex-col items-center gap-2 transition-all duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
-                style={{ color: theme.text }}
-                aria-label="Email Sai"
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
-                </svg>
-                <span className="text-xs" style={{ color: theme.textMuted }}>Email</span>
-              </motion.a>
-            </motion.div>
           </div>
         </section>
 

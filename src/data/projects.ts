@@ -33,7 +33,7 @@ export const projects: Project[] = [
     title: 'Habit Box',
     description: 'A digital product for building and tracking daily habits.',
     url: 'https://www.behance.net/gallery/236186923/Habit-Box-Case-Study',
-    image: '/images/projects/habit-box.png',
+    image: '/images/projects/habit-box/hero-home.png',
     caseStudy: {
       subtitle: 'A habit tracker app',
       overview: 'Habit box is designed to provide users with a tool that not only tracks their daily habits but also motivates and encourages them to stay consistent.',
