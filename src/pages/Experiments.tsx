@@ -21,7 +21,7 @@ const experiments = [
       </svg>
     ),
   },
-{
+  {
     id: 'marble-solitaire',
     title: 'Marble Solitaire',
     description: 'Classic peg solitaire with emerald marbles on a marble board.',
@@ -34,6 +34,18 @@ const experiments = [
         <circle cx="12" cy="18" r="1.5" fill="currentColor" />
         <circle cx="6" cy="12" r="1.5" fill="currentColor" />
         <circle cx="18" cy="12" r="1.5" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: 'terminal',
+    title: 'Terminal',
+    description: 'ASCII art silhouette with decrypt animation and decoder lens.',
+    path: '/experiments/terminal',
+    icon: (
+      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="4 17 10 11 4 5" />
+        <line x1="12" y1="19" x2="20" y2="19" />
       </svg>
     ),
   },

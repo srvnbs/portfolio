@@ -149,7 +149,7 @@ export default function App() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-              className="max-w-[750px] mx-auto text-center mb-8"
+              className="max-w-[750px] mx-auto text-center mb-14"
             >
               <p className="text-[15px] sm:text-[17px] md:text-[18px] leading-relaxed" style={{ color: theme.textSecondary }}>
                 Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at M2P Fintech

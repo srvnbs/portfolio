@@ -9,6 +9,7 @@ import "./styles/globals.css";
 const Experiments = lazy(() => import("./pages/Experiments.tsx"));
 const CarromGame = lazy(() => import("./pages/CarromGame.tsx"));
 const MarbleSolitaire = lazy(() => import("./pages/MarbleSolitaire.tsx"));
+const Terminal = lazy(() => import("./pages/Terminal.tsx"));
 const Projects = lazy(() => import("./pages/Projects.tsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.tsx"));
 
@@ -54,7 +55,15 @@ createRoot(document.getElementById("root")!).render(
             </Suspense>
           }
         />
-<Route
+        <Route
+          path="/experiments/terminal"
+          element={
+            <Suspense fallback={<LazyFallback />}>
+              <Terminal />
+            </Suspense>
+          }
+        />
+        <Route
           path="/experiments/marble-solitaire"
           element={
             <Suspense fallback={<LazyFallback />}>

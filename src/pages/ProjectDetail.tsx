@@ -43,19 +43,92 @@ export default function ProjectDetail() {
         <p className="text-lg" style={{ color: theme.textSecondary }}>{project.description}</p>
       </motion.div>
 
-      <motion.div
-        className="rounded-xl overflow-hidden border mb-8"
-        style={{ borderColor: theme.border }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full"
-        />
-      </motion.div>
+      {!project.caseStudy && (
+        <motion.div
+          className="rounded-xl overflow-hidden border mb-8"
+          style={{ borderColor: theme.border }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full"
+          />
+        </motion.div>
+      )}
+
+      {project.caseStudy && (
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+        >
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: theme.textSecondary }}>
+            {project.caseStudy.overview}
+          </p>
+
+          {project.caseStudy.heroImages && (
+            <div className="flex gap-4 mb-12 justify-center overflow-x-auto">
+              {project.caseStudy.heroImages.map((img, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl overflow-hidden p-6"
+                  style={{ backgroundColor: '#f0f0f0' }}
+                >
+                  <img
+                    src={img}
+                    alt={`${project.title} screen ${i + 1}`}
+                    className="h-72 w-auto rounded-lg object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-12">
+            {project.caseStudy.sections.map((section, i) => (
+              <motion.div
+                key={section.title}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.05 }}
+              >
+                <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
+                <div className="flex flex-col gap-3">
+                  {section.content.map((paragraph, j) => (
+                    <p key={j} className="leading-relaxed" style={{ color: theme.textSecondary }}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                {section.images && (
+                  <div className="flex flex-wrap gap-4 mt-6 justify-center">
+                    {section.images.map((img, j) => (
+                      <div
+                        key={j}
+                        className="rounded-2xl overflow-hidden p-6"
+                        style={{ backgroundColor: '#f0f0f0' }}
+                      >
+                        <img
+                          src={img}
+                          alt={`${section.title} illustration ${j + 1}`}
+                          className="max-w-full rounded-lg object-contain"
+                          style={{ maxHeight: '400px' }}
+                          loading="lazy"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       <motion.div
         className="text-center mb-16"
@@ -70,7 +143,7 @@ export default function ProjectDetail() {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-all hover:opacity-80"
           style={{ backgroundColor: theme.text, color: theme.bg }}
         >
-          View full case study on Behance
+          {project.caseStudy ? 'View on Behance' : 'View full case study on Behance'}
           <ExternalLink className="w-4 h-4" />
         </a>
       </motion.div>
