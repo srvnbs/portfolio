@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useTheme } from '../components/Layout';
 import { projects } from '../data/projects';
 
@@ -14,15 +14,6 @@ export default function Projects() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
-      <Link
-        to="/"
-        className="inline-flex items-center gap-2 mb-12 text-sm transition-opacity hover:opacity-70"
-        style={{ color: theme.textMuted }}
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to home
-      </Link>
-
       <motion.h1
         className="text-3xl font-bold mb-2"
         initial={{ opacity: 0, y: 20 }}
@@ -40,7 +31,7 @@ export default function Projects() {
         Selected work and case studies.
       </motion.p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {projects.map((project, i) => (
           <motion.div
             key={project.id}

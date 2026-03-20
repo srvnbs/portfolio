@@ -51,7 +51,7 @@ function NavText({ to, active, theme, children }: {
     <div className="relative">
       <Link
         to={to}
-        className="h-11 sm:h-12 flex items-center justify-center px-5 sm:px-6 rounded-full border text-sm font-semibold transition-colors duration-200 hover:scale-105 whitespace-nowrap"
+        className="h-11 sm:h-12 flex items-center justify-center px-5 sm:px-6 rounded-full border-[1.5px] text-sm font-semibold transition-colors duration-200 hover:scale-105 whitespace-nowrap"
         style={{
           borderColor: active ? theme.accent : theme.border,
           color: active ? theme.accent : theme.text,

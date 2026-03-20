@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Linkedin, Mail, Copy, Check } from 'lucide-react';
+import { Linkedin, Mail, Copy, Check } from 'lucide-react';
 import { useTheme } from '../components/Layout';
 
 const contacts = [
@@ -52,15 +51,6 @@ export default function Contact() {
 
   return (
     <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
-      <Link
-        to="/"
-        className="inline-flex items-center gap-2 mb-12 text-sm transition-opacity hover:opacity-70"
-        style={{ color: theme.textMuted }}
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to home
-      </Link>
-
       <motion.h1
         className="text-3xl font-bold mb-2"
         initial={{ opacity: 0, y: 20 }}
