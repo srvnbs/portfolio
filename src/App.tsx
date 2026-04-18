@@ -137,7 +137,7 @@ export default function App() {
               className="max-w-[750px] mx-auto text-center mb-4"
             >
               <p className="pb-4 text-[17px] sm:text-[18px] md:text-[20px] mt-[-8px]" style={{ color: theme.text }}>
-                Senior Product Designer at Bread Financial
+                A Senior Product Designer based in Bengaluru
               </p>
             </motion.div>
 
@@ -149,7 +149,7 @@ export default function App() {
               className="max-w-[750px] mx-auto text-center mb-14"
             >
               <p className="text-[15px] sm:text-[17px] md:text-[18px] leading-relaxed" style={{ color: theme.textSecondary }}>
-                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at M2P Fintech
+                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at Bread Financial
               </p>
             </motion.div>
 
