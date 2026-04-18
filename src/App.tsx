@@ -46,7 +46,7 @@ export default function App() {
     setLinkTag('canonical', siteUrl);
 
     // Standard meta tags
-    setMetaTag('description', 'A Product Designer creating digital experiences.');
+    setMetaTag('description', 'A Senior Product Designer creating digital experiences.');
     setMetaTag('author', 'Sai Sravan Biyyapu');
     
     // Open Graph tags for social sharing
@@ -137,7 +137,7 @@ export default function App() {
               className="max-w-[750px] mx-auto text-center mb-4"
             >
               <p className="pb-4 text-[17px] sm:text-[18px] md:text-[20px] mt-[-8px]" style={{ color: theme.text }}>
-                A Product Designer based in Bengaluru
+                Senior Product Designer at Bread Financial
               </p>
             </motion.div>
 
