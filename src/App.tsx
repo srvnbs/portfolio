@@ -149,7 +149,7 @@ export default function App() {
               className="max-w-[750px] mx-auto text-center mb-14"
             >
               <p className="text-[15px] sm:text-[17px] md:text-[18px] leading-relaxed" style={{ color: theme.textSecondary }}>
-                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at Bread Financial
+                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at <a href="https://www.breadfinancial.com/" target="_blank" rel="noopener noreferrer" className="relative inline-block underline decoration-1 underline-offset-2 decoration-from-left transition-[text-decoration-thickness] duration-300 hover:decoration-[1.5px]">Bread Financial</a>
               </p>
             </motion.div>
 
