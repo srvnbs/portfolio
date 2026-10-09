@@ -31,7 +31,7 @@ export default function Projects() {
         Selected work and case studies.
       </motion.p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {projects.map((project, i) => (
           <motion.div
             key={project.id}
@@ -48,7 +48,7 @@ export default function Projects() {
                 color: theme.text,
               }}
             >
-              <div className="aspect-[16/10] overflow-hidden flex justify-center" style={{ backgroundColor: project.caseStudy ? '#f0f0f0' : theme.bg }}>
+              <div className="aspect-[20/9] overflow-hidden flex justify-center" style={{ backgroundColor: project.caseStudy ? '#f0f0f0' : theme.bg }}>
                 {project.caseStudy ? (
                   <img
                     src={project.image}

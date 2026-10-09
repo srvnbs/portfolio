@@ -79,29 +79,22 @@ export default function ProjectDetail() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
+          <div
+            className="mb-10 rounded-2xl overflow-hidden p-3 sm:p-6 cursor-pointer"
+            style={{ backgroundColor: '#f0f0f0' }}
+            onClick={() => setLightboxImg(project.image)}
+          >
+            <img
+              src={project.image}
+              alt={`${project.title} thumbnail`}
+              className="mx-auto max-h-[420px] w-auto rounded-lg object-contain"
+              loading="lazy"
+            />
+          </div>
+
           <p className="text-lg mb-10 leading-relaxed" style={{ color: theme.textSecondary }}>
             {project.caseStudy.overview}
           </p>
-
-          {project.caseStudy.heroImages && (
-            <div className="flex gap-3 sm:gap-4 mb-12 justify-center overflow-x-auto px-2">
-              {project.caseStudy.heroImages.map((img, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl overflow-hidden p-3 sm:p-6 cursor-pointer shrink-0"
-                  style={{ backgroundColor: '#f0f0f0' }}
-                  onClick={() => setLightboxImg(img)}
-                >
-                  <img
-                    src={img}
-                    alt={`${project.title} screen ${i + 1}`}
-                    className="h-[280px] sm:h-[432px] w-auto rounded-lg object-contain"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
 
           <div className="flex flex-col gap-12">
             {project.caseStudy.sections.map((section, i) => (
