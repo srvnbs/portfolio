@@ -3,20 +3,23 @@ import { motion } from 'motion/react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from './Layout';
 
-function NavIcon({ to, active, theme, children }: {
+function NavIcon({ to, active, theme, children, ariaLabel }: {
   to: string;
   active: boolean;
   theme: Record<string, string>;
   children: React.ReactNode;
+  ariaLabel?: string;
 }) {
   return (
     <div className="relative">
       <Link
         to={to}
+        aria-label={ariaLabel}
         className="w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border transition-colors duration-200 hover:scale-105"
         style={{
-          borderColor: active ? theme.accent : theme.border,
-          color: active ? theme.accent : theme.text,
+          backgroundColor: active ? theme.text : 'transparent',
+          borderColor: active ? theme.text : theme.border,
+          color: active ? theme.bg : theme.text,
         }}
       >
         <motion.span
@@ -53,8 +56,9 @@ function NavText({ to, active, theme, children }: {
         to={to}
         className="h-11 sm:h-12 flex items-center justify-center px-5 sm:px-6 rounded-full border-[1.5px] text-sm font-semibold transition-colors duration-200 hover:scale-105 whitespace-nowrap"
         style={{
-          borderColor: active ? theme.accent : theme.border,
-          color: active ? theme.accent : theme.text,
+          backgroundColor: active ? theme.text : 'transparent',
+          borderColor: active ? theme.text : theme.border,
+          color: active ? theme.bg : theme.text,
         }}
       >
         <motion.span
@@ -80,7 +84,7 @@ function NavText({ to, active, theme, children }: {
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const { darkMode, setDarkMode, theme } = useTheme();
+  const { darkMode, toggleDarkMode, theme } = useTheme();
 
   const isHome = pathname === '/';
   const isProjects = pathname.startsWith('/projects');
@@ -105,12 +109,10 @@ export function BottomNav() {
           </svg>
         </NavIcon>
 
-        <NavIcon to="/projects" active={isProjects} theme={theme}>
-          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="2" y="2" width="9" height="9" rx="2" />
-            <rect x="13" y="2" width="9" height="9" rx="2" />
-            <rect x="2" y="13" width="9" height="9" rx="2" />
-            <rect x="13" y="13" width="9" height="9" rx="2" />
+        <NavIcon to="/projects" active={isProjects} theme={theme} ariaLabel="Work">
+          <svg className="w-5 h-5" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
+            <path d="M48 160a32 32 0 0 1 32-32h352a32 32 0 0 1 32 32v256a32 32 0 0 1-32 32H80a32 32 0 0 1-32-32V160zm112-32V96a48 48 0 0 1 48-48h96a48 48 0 0 1 48 48v32h-48V96h-96v32h-48z" />
+            <path d="M64 240h384" fill="none" stroke={theme.cardBg} strokeWidth="24" />
           </svg>
         </NavIcon>
 
@@ -125,7 +127,13 @@ export function BottomNav() {
         </NavText>
 
         <button
-          onClick={() => setDarkMode(!darkMode)}
+          onClick={(event) => {
+            const bounds = event.currentTarget.getBoundingClientRect();
+            toggleDarkMode({
+              x: bounds.left + bounds.width / 2,
+              y: bounds.top + bounds.height / 2,
+            });
+          }}
           className="w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full border transition-all duration-200 hover:scale-105"
           style={{
             borderColor: theme.border,

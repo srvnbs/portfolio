@@ -9,7 +9,7 @@ export default function Projects() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    document.title = 'Projects - Sai Sravan Biyyapu';
+    document.title = 'Work - Sai Sravan Biyyapu';
   }, []);
 
   return (
@@ -19,16 +19,33 @@ export default function Projects() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        Projects
+        Work
       </motion.h1>
-      <motion.p
-        className="mb-10"
+      <motion.div
+        className="mb-8 space-y-4 leading-relaxed"
         style={{ color: theme.textMuted }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 }}
       >
-        Selected work and case studies.
+        <p>
+          I’m driven by understanding people’s challenges and designing experiences that make things better.
+        </p>
+        <p>
+          Previously, I designed mobile and web lending products that help banks, NBFCs, MFIs and fintechs manage the lending journey from borrower onboarding through loan servicing. I worked as a solo designer at one startup and later partnered with product and engineering teams at another.
+        </p>
+        <p>
+          My work on a core lending platform included loan origination, workflow tools, business rules, back-office portals and mobile apps for DSAs and field officers.
+        </p>
+      </motion.div>
+      <motion.p
+        className="mb-10"
+        style={{ color: theme.textMuted }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        Selected projects and case studies.
       </motion.p>
 
       <div className="grid grid-cols-1 gap-6">

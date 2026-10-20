@@ -100,7 +100,7 @@ export default function App() {
     <div>
       <main className="container mx-auto px-8 max-w-[1200px]">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-center min-h-screen py-12">
+        <section className="flex flex-col items-center justify-start min-h-screen pb-12 pt-[calc(40vh-50px)] sm:pt-[calc(40vh-60px)] md:pt-[calc(40vh-75px)]">
           <div className="max-w-[800px] w-full text-center">
             {/* Profile Image */}
             <motion.div
@@ -136,20 +136,11 @@ export default function App() {
               transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
               className="max-w-[750px] mx-auto text-center mb-4"
             >
-              <p className="pb-4 text-[17px] sm:text-[18px] md:text-[20px] mt-[-8px]" style={{ color: theme.text }}>
-                A Senior Product Designer based in Bengaluru
+              <p className="text-[17px] sm:text-[18px] md:text-[20px]" style={{ color: theme.text }}>
+                Senior Product Designer based in Bengaluru
               </p>
-            </motion.div>
-
-            {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-              className="max-w-[750px] mx-auto text-center mb-14"
-            >
-              <p className="text-[15px] sm:text-[17px] md:text-[18px] leading-relaxed" style={{ color: theme.textSecondary }}>
-                Crafting human-centered, accessible, and beautiful digital experiences. <br />Currently at <a href="https://www.breadfinancial.com/" target="_blank" rel="noopener noreferrer" className="relative inline-block underline decoration-1 underline-offset-2 decoration-from-left transition-[text-decoration-thickness] duration-300 hover:decoration-[1.5px]">Bread Financial</a>
+              <p className="mt-0 text-[17px] sm:text-[18px] md:text-[20px]" style={{ color: theme.text }}>
+                Crafting digital experiences at <a href="https://www.breadfinancial.com/" target="_blank" rel="noopener noreferrer" className="relative inline-block underline decoration-1 underline-offset-2 decoration-from-left transition-[text-decoration-thickness] duration-300 hover:decoration-[1.5px]">Bread Financial</a>.
               </p>
             </motion.div>
 
@@ -178,6 +169,11 @@ export default function App() {
         </motion.section>
         */}
       </main>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-36 sm:h-40"
+        style={{ background: `linear-gradient(to bottom, transparent, ${theme.bg} 65%)` }}
+      />
     </div>
   );
 }

@@ -189,4 +189,45 @@
 
 html {
   font-size: var(--font-size);
+  view-transition-name: root;
+}
+
+@property --theme-reveal-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: reveal-theme 700ms ease-out forwards;
+  mask-image: radial-gradient(
+    circle at var(--theme-transition-x) var(--theme-transition-y),
+    #000 0,
+    #000 var(--theme-reveal-radius),
+    transparent calc(var(--theme-reveal-radius) + 8px)
+  );
+  mask-position: 0 0;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
+@keyframes reveal-theme {
+  to {
+    --theme-reveal-radius: 150vmax;
+  }
 }

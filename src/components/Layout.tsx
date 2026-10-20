@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from 'react';
+import { flushSync } from 'react-dom';
 import { BottomNav } from './BottomNav';
 
 const TRAIL_LENGTH = 12;
@@ -8,7 +9,7 @@ type TrailPoint = { x: number; y: number; id: number };
 
 type ThemeContextType = {
   darkMode: boolean;
-  setDarkMode: (v: boolean) => void;
+  toggleDarkMode: (origin: { x: number; y: number }) => void;
   theme: {
     bg: string;
     text: string;
@@ -21,6 +22,10 @@ type ThemeContextType = {
   };
 };
 
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (update: () => void) => void;
+};
+
 const ThemeContext = createContext<ThemeContextType>(null!);
 export const useTheme = () => useContext(ThemeContext);
 
@@ -31,6 +36,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(false);
   const idCounter = useRef(0);
   const lastUpdate = useRef(0);
+
+  const toggleDarkMode = ({ x, y }: { x: number; y: number }) => {
+    const updateTheme = () => setDarkMode(current => !current);
+    const startViewTransition = (document as ViewTransitionDocument).startViewTransition;
+
+    if (!startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      updateTheme();
+      return;
+    }
+
+    document.documentElement.style.setProperty('--theme-transition-x', `${x}px`);
+    document.documentElement.style.setProperty('--theme-transition-y', `${y}px`);
+    startViewTransition.call(document, () => flushSync(updateTheme));
+  };
 
   // Initialize dark mode
   useEffect(() => {
@@ -108,8 +127,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode, theme }}>
-      <div className="min-h-screen relative font-['Inter',sans-serif] transition-colors duration-300" style={{ backgroundColor: theme.bg, color: theme.text }}>
+    <ThemeContext.Provider value={{ darkMode, toggleDarkMode, theme }}>
+      <div className="min-h-screen relative font-['Inter',sans-serif]" style={{ backgroundColor: theme.bg, color: theme.text }}>
         {/* Trail Cursor */}
         {showCursor && (
           <div className="hidden md:block fixed inset-0 pointer-events-none" style={{ zIndex: 9999 }}>
