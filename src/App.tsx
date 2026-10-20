@@ -100,7 +100,7 @@ export default function App() {
     <div>
       <main className="container mx-auto px-8 max-w-[1200px]">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-start min-h-screen pb-12 pt-[calc(40vh-50px)] sm:pt-[calc(40vh-60px)] md:pt-[calc(40vh-75px)]">
+        <section className="flex min-h-[100svh] flex-col items-center justify-center py-12">
           <div className="max-w-[800px] w-full text-center">
             {/* Profile Image */}
             <motion.div
@@ -169,11 +169,6 @@ export default function App() {
         </motion.section>
         */}
       </main>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-36 sm:h-40"
-        style={{ background: `linear-gradient(to bottom, transparent, ${theme.bg} 65%)` }}
-      />
     </div>
   );
 }
