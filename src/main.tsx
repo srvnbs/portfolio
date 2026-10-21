@@ -10,6 +10,12 @@ const Experiments = lazy(() => import("./pages/Experiments.tsx"));
 const CarromGame = lazy(() => import("./pages/CarromGame.tsx"));
 const MarbleSolitaire = lazy(() => import("./pages/MarbleSolitaire.tsx"));
 const Terminal = lazy(() => import("./pages/Terminal.tsx"));
+const LetterRain = import.meta.env.DEV
+  ? lazy(() => import("./pages/LetterRain.tsx"))
+  : null;
+const Playground = import.meta.env.DEV
+  ? lazy(() => import("./pages/Playground.tsx"))
+  : null;
 const Projects = lazy(() => import("./pages/Projects.tsx"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail.tsx"));
 const Contact = lazy(() => import("./pages/Contact.tsx"));
@@ -64,6 +70,26 @@ createRoot(document.getElementById("root")!).render(
             </Suspense>
           }
         />
+        {Playground && LetterRain && (
+          <>
+          <Route
+            path="/playground"
+            element={
+              <Suspense fallback={<LazyFallback />}>
+                <Playground />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/playground/letter-rain"
+            element={
+              <Suspense fallback={<LazyFallback />}>
+                <LetterRain />
+              </Suspense>
+            }
+          />
+          </>
+        )}
         <Route
           path="/contact"
           element={
