@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Linkedin, Mail, Copy, Check } from 'lucide-react';
 import { useTheme } from '../components/Layout';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 const contacts = [
   {
@@ -25,7 +26,7 @@ export default function Contact() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'Contact - Sai Sravan Biyyapu';
+    document.title = `Contact – ${SITE_NAME}`;
     window.scrollTo(0, 0);
   }, []);
 
@@ -50,7 +51,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
+    <div className="max-w-xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-32 sm:pb-36">
       <motion.h1
         className="text-3xl font-bold mb-2"
         initial={{ opacity: 0, y: 20 }}

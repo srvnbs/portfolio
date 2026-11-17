@@ -190,6 +190,8 @@
 html {
   font-size: var(--font-size);
   view-transition-name: root;
+  /* Keep focused/scrolled-to elements clear of the fixed BottomNav */
+  scroll-padding-bottom: 8rem;
 }
 
 @property --theme-reveal-radius {

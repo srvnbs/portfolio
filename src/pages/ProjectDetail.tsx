@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ExternalLink, X } from 'lucide-react';
 import { useTheme } from '../components/Layout';
 import { projects } from '../data/projects';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,7 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     if (project) {
-      document.title = `${project.title} - Sai Sravan Biyyapu`;
+      document.title = `${project.title} – ${SITE_NAME}`;
     }
     window.scrollTo(0, 0);
   }, [project]);
@@ -36,7 +37,7 @@ export default function ProjectDetail() {
   if (!project) return <Navigate to="/projects" replace />;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-32 sm:pb-36">
       <Link
         to="/projects"
         className="inline-flex items-center gap-2 mb-8 text-sm transition-opacity hover:opacity-70"

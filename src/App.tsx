@@ -1,32 +1,29 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { ArrowRight } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import { useTheme } from './components/Layout';
+import { ProjectThumbnail } from './components/ProjectThumbnail';
+import { featuredProjects } from './data/projects';
+import { usePageTitle } from './hooks/usePageTitle';
 import profileImage from 'figma:asset/81f683565768878cc7a4a6d9706864377017a4e4.png';
 
+const fadeUp = (delay: number) => ({
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: 'easeOut' as const },
+});
+
 export default function App() {
-  const { darkMode, theme } = useTheme();
+  const { theme } = useTheme();
+  usePageTitle();
 
-  // Set page title and meta tags
+  // Favicon and canonical link. Description, Open Graph, Twitter and JSON-LD
+  // tags are static in index.html so link-preview crawlers (which don't run JS) see them.
   useEffect(() => {
-    document.title = 'Sai Sravan Biyyapu - Product Designer';
-    
-    // Set lang attribute on HTML element
     document.documentElement.lang = 'en';
-    
-    // Set or update meta tags
-    const setMetaTag = (property: string, content: string, isProperty = false) => {
-      const attribute = isProperty ? 'property' : 'name';
-      let element = document.querySelector(`meta[${attribute}="${property}"]`) as HTMLMetaElement;
-      if (!element) {
-        element = document.createElement('meta');
-        element.setAttribute(attribute, property);
-        document.head.appendChild(element);
-      }
-      element.content = content;
-    };
 
-    // Set or update link tags
     const setLinkTag = (rel: string, href: string) => {
       let element = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement;
       if (!element) {
@@ -37,78 +34,18 @@ export default function App() {
       element.href = href;
     };
 
-    const siteUrl = 'https://saisravan.netlify.app';
-    const imageUrl = `${siteUrl}${profileImage}`;
-
-    // Set favicon and apple touch icon
     setLinkTag('icon', profileImage);
     setLinkTag('apple-touch-icon', profileImage);
-    setLinkTag('canonical', siteUrl);
-
-    // Standard meta tags
-    setMetaTag('description', 'A Senior Product Designer creating digital experiences.');
-    setMetaTag('author', 'Sai Sravan Biyyapu');
-    
-    // Open Graph tags for social sharing
-    setMetaTag('og:title', 'Sai Sravan Biyyapu - Product Designer', true);
-    setMetaTag('og:description', 'A Product Designer creating digital experiences.', true);
-    setMetaTag('og:type', 'website', true);
-    setMetaTag('og:url', siteUrl, true);
-    setMetaTag('og:image', imageUrl, true);
-    setMetaTag('og:site_name', 'Sai Sravan Biyyapu Portfolio', true);
-    
-    // Twitter Card tags
-    setMetaTag('twitter:card', 'summary_large_image');
-    setMetaTag('twitter:title', 'Sai Sravan Biyyapu - Product Designer');
-    setMetaTag('twitter:description', 'A Product Designer creating digital experiences.');
-    setMetaTag('twitter:image', imageUrl);
-
-    // Add structured data (JSON-LD)
-    let structuredData = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
-    if (!structuredData) {
-      structuredData = document.createElement('script');
-      structuredData.type = 'application/ld+json';
-      document.head.appendChild(structuredData);
-    }
-    
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Sai Sravan Biyyapu",
-      "jobTitle": "Product Designer",
-      "description": "A Product Designer creating digital experiences.",
-      "image": imageUrl,
-      "url": siteUrl,
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Bengaluru",
-        "addressCountry": "IN"
-      },
-      "sameAs": [
-        "https://www.linkedin.com/in/saisravanbiyyapu",
-        "https://dribbble.com/saisravanbiyyapu",
-        "https://www.behance.net/saisravanbiyyapu",
-        "mailto:saisravan.biyyapu@gmail.com"
-      ]
-    };
-    
-    structuredData.textContent = JSON.stringify(schema);
+    setLinkTag('canonical', 'https://saisravan.netlify.app');
   }, []);
-
 
   return (
     <div>
-      <main className="container mx-auto px-8 max-w-[1200px]">
-        {/* Hero Section */}
-        <section className="flex min-h-[100svh] flex-col items-center justify-center py-12">
+      <main className="container mx-auto px-6 sm:px-8 max-w-[1200px] pb-32 sm:pb-36">
+        {/* Hero */}
+        <section className="flex flex-col items-center pt-16 sm:pt-24 pb-14 sm:pb-20">
           <div className="max-w-[800px] w-full text-center">
-            {/* Profile Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0, ease: 'easeOut' }}
-              className="mb-8"
-            >
+            <motion.div {...fadeUp(0)} className="mb-8">
               <div className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px] mx-auto rounded-full overflow-hidden">
                 <ImageWithFallback
                   src={profileImage}
@@ -118,24 +55,15 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Hero Title */}
             <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+              {...fadeUp(0.1)}
               className="mb-4 leading-[1.1] text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem]"
               style={{ fontFamily: "'Merriweather', serif", fontWeight: 400, color: theme.text }}
             >
               Hello, I'm Sai.
             </motion.h1>
 
-            {/* Subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-              className="max-w-[750px] mx-auto text-center mb-4"
-            >
+            <motion.div {...fadeUp(0.15)} className="max-w-[750px] mx-auto text-center">
               <p className="text-[17px] sm:text-[18px] md:text-[20px]" style={{ color: theme.text }}>
                 Senior Product Designer based in Bengaluru
               </p>
@@ -144,30 +72,61 @@ export default function App() {
               </p>
             </motion.div>
 
+            <motion.div {...fadeUp(0.2)} className="mt-8">
+              <Link
+                to="/projects"
+                className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4"
+                style={{ backgroundColor: theme.text, color: theme.bg, outlineColor: theme.text }}
+              >
+                View work
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            </motion.div>
           </div>
         </section>
 
-        {/* Skills Section - Temporarily hidden */}
-        {/* 
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-        >
-          <h2 className="text-center mb-8 text-[2rem]" style={{ fontFamily: "'Merriweather', serif", fontWeight: 400 }}>
-            Specializations
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {['UX Research', 'Interaction Design', 'Design Systems', 'Prototyping', 'User Testing', 'Accessibility', 'Fintech', 'Mobile Design'].map((skill) => (
-              <span
-                key={skill}
-                className="px-4 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105"
-                style={{ backgroundColor: theme.cardBg, color: theme.text, border: `1px solid ${theme.border}` }}
-              >
-                {skill}
-              </span>
-            ))}
+        {/* Featured work */}
+        <motion.section aria-labelledby="featured-heading" {...fadeUp(0.25)}>
+          <div className="flex items-baseline justify-between gap-4 mb-5">
+            <h2 id="featured-heading" className="text-xl font-semibold">
+              Featured work
+            </h2>
+            <Link
+              to="/projects"
+              className="text-sm underline-offset-2 hover:underline"
+              style={{ color: theme.textMuted }}
+            >
+              All projects
+            </Link>
           </div>
+
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredProjects.map((project) => (
+              <li key={project.id}>
+                <Link
+                  to={`/projects/${project.id}`}
+                  className="group flex h-full flex-col rounded-xl border overflow-hidden transition-transform duration-200 hover:-translate-y-1"
+                  style={{ backgroundColor: theme.cardBg, borderColor: theme.border, color: theme.text }}
+                >
+                  <ProjectThumbnail project={project} aspectClass="aspect-[4/3]" />
+                  <div className="p-4 flex items-start justify-between gap-2">
+                    <div>
+                      <h3 className="font-semibold">{project.title}</h3>
+                      <p className="text-sm mt-1" style={{ color: theme.textMuted }}>
+                        {project.outcome ?? project.description}
+                      </p>
+                    </div>
+                    <ArrowRight
+                      className="w-4 h-4 shrink-0 mt-1 transition-transform duration-200 group-hover:translate-x-1"
+                      style={{ color: theme.textMuted }}
+                      aria-hidden="true"
+                    />
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </motion.section>
-        */}
       </main>
     </div>
   );

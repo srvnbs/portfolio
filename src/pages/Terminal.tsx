@@ -4,12 +4,13 @@ import { motion } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import { useTheme } from '../components/Layout';
 import { TerminalGlitchCanvas } from '../components/terminal/TerminalGlitchCanvas';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 export default function Terminal() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    document.title = 'Terminal - Sai Sravan Biyyapu';
+    document.title = `Terminal – ${SITE_NAME}`;
   }, []);
 
   return (

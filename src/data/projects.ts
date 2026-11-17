@@ -17,6 +17,8 @@ export type Project = {
   description: string;
   url: string;
   image: string;
+  /** One-line result shown on the home page's featured cards. */
+  outcome?: string;
   caseStudy?: CaseStudy;
 };
 
@@ -27,6 +29,7 @@ export const visibleProjects: Project[] = [
     description: "A loyalty points system for retail kirana stores.",
     url: "https://www.behance.net/gallery/236191079/Kirana-Points-Case-Study",
     image: "/images/projects/kirana-points/Thumbnail2.png",
+    outcome: "Turned points, tiers and rewards into one glanceable dashboard that nudges repeat visits.",
     caseStudy: {
       subtitle: "A loyalty program for \"Bharat Kiranawalas\"",
       overview: "Kirana Points is designed to help users understand their loyalty progress clearly while encouraging repeat purchases through visible rewards, milestones, and a simple everyday rewards loop.",
@@ -74,6 +77,7 @@ export const visibleProjects: Project[] = [
     description: "A digital product for building and tracking daily habits.",
     url: "https://www.behance.net/gallery/236186923/Habit-Box-Case-Study",
     image: "/images/projects/habit-box/hero-home.png",
+    outcome: "Kept daily tracking light by splitting habits, stats and reminders into focused views.",
     caseStudy: {
       subtitle: "A habit tracker app",
       overview: "Habit box is designed to provide users with a tool that not only tracks their daily habits but also motivates and encourages them to stay consistent.",
@@ -159,6 +163,7 @@ export const visibleProjects: Project[] = [
     description: "A modern digital wallet tailored for Generation Z users.",
     url: "https://www.behance.net/gallery/168678339/Wallet-for-Gen-Z",
     image: "/images/projects/wallet-genz.jpg",
+    outcome: "Reimagined the everyday digital wallet around how Gen Z users spend and save.",
   },
 ];
 
@@ -201,3 +206,8 @@ export const archivedProjects: Project[] = [
 ];
 
 export const projects = visibleProjects;
+
+/** Projects highlighted on the home page, in display order. */
+export const featuredProjects: Project[] = ["kirana-points", "habit-box", "wallet-genz"]
+  .map((id) => visibleProjects.find((p) => p.id === id))
+  .filter((p): p is Project => Boolean(p));

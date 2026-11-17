@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { useTheme } from '../components/Layout';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 const poem = [
   'The morning folds its silver map',
@@ -76,7 +77,7 @@ export default function LetterRain() {
   const particlesRef = useRef<RainParticle[]>([]);
 
   useEffect(() => {
-    document.title = 'Letter Rain - Sai Sravan Biyyapu';
+    document.title = `Letter Rain – ${SITE_NAME}`;
   }, []);
 
   useEffect(() => {

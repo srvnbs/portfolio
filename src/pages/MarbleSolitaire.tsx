@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { RotateCcw, Trophy, XCircle, Undo, Lightbulb, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 export default function MarbleSolitaire() {
   const getInitialBoard = () => {
@@ -42,7 +43,7 @@ export default function MarbleSolitaire() {
   const [showHighScoreText, setShowHighScoreText] = useState(false);
 
   useEffect(() => {
-    document.title = 'Marble Solitaire - Sai Sravan Biyyapu';
+    document.title = `Marble Solitaire – ${SITE_NAME}`;
   }, []);
 
   const positions = [

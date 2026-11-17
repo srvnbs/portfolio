@@ -2,16 +2,17 @@ import { useEffect } from 'react';
 import { ArrowRight, CloudRain } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../components/Layout';
+import { SITE_NAME } from '../hooks/usePageTitle';
 
 export default function Playground() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    document.title = 'Playground - Sai Sravan Biyyapu';
+    document.title = `Playground – ${SITE_NAME}`;
   }, []);
 
   return (
-    <main className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 pb-28">
+    <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-32 sm:pb-36">
       <p
         className="text-xs tracking-[0.18em] uppercase mb-3"
         style={{ color: theme.textMuted }}
